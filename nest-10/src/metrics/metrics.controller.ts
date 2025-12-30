@@ -5,17 +5,71 @@ import { ServicenowService } from 'src/servicenow/servicenow.service';
 export class MetricsController {
     constructor(private snService: ServicenowService){}
 
-    @Get(':id')
-    async getMetric(@Param('id') id: string){
-        switch(id){
-            case 'm1':
+    @Get(':name')
+    async getMetric(@Param('name') name: string){
+        switch(name){
+
+            case 'total-open-incidents': // M1
                 return this.snService.fetchTable(
                     'incident',
                     'active=true'
                 );
+
+            case 'unassigned-tickets': // M6
+                return this.snService.fetchTable(
+                    'incident',
+                    'active=true^assigned_toISEMPTY'
+                )
+            
+            case 'stale-tickets': // M10
+                return this.snService.fetchTable(
+                    'incident',
+                    'active=true^sys_updated_on<javascript:gs.daysAgoStart(30)'
+                )
+
+            case 'critical-backlog': // M3
+                return this.snService.fetchTable(
+                    'incident',
+                    'priority<3^stateNOT IN6,7'
+                )
+
+            case 'volume-by-priority': // M2
+                return this.snService.fetchTable(
+                    'incident',
+                    'active=true^priorityIN1,2,3,4',
+                    'priority'
+                )
+            
+            case 'category-distribution': // M4
+                return this.snService.fetchTable(
+                    'incident',
+                    'active=true^categoryISNOTEMPTY',
+                    'category'
+                )
+            
+            case 'group-workload': // M5
+                return this.snService.fetchTable(
+                    'incident',
+                    'active=true^assignment_groupISNOTEMPTY',
+                    'assignment_group'
+                )
+            
+            case 'sla-breach-status': // M7
+                return this.snService.fetchTable(
+                    'task_sla',
+                    'stage=in_progress^has_breached=true',
+                    'stage'
+                )
+            
+            case 'state-funnel': // M9
+                return this.snService.fetchTable(
+                    'incident',
+                    'stateIN1,2,3^active=true',
+                    'state'
+                )
             
             default:
-                return {error: 'Invalid Metric ID'};
+                return {error: 'Invalid Metric Name'};
         }
     }
 }
