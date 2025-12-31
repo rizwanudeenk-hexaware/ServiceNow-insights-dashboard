@@ -12,8 +12,8 @@ import {
 
 export const analyticKPIs: AnalyticKPIData[] = [
   {
-    title: 'Total Visitors',
-    value: 5921649,
+    title: 'Total Open Incidents',
+    value: '...',
     icon: {
       name: 'material-symbols:attribution-outline-rounded',
       color: 'primary',

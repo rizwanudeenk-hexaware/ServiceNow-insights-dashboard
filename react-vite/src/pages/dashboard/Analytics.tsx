@@ -10,12 +10,32 @@ import AnalyticKPI from 'components/sections/dashboards/analytics/kpi/AnalyticKP
 import TopCampaigns from 'components/sections/dashboards/analytics/top-campaigns/TopCampaigns';
 import UserByCountry from 'components/sections/dashboards/analytics/user-by-country/UserByCountry';
 import UserEngagement from 'components/sections/dashboards/analytics/user-engagement/UserEngagement';
+import { useEffect, useState } from 'react';
+import { getOpenIncidentsCount } from './DashboardService';
 
 const Analytics = () => {
+  const [openIncidents, setOpenIncidents] = useState('...');
+
+  useEffect(() => {
+    getOpenIncidentsCount().then((count) => {
+      setOpenIncidents(count);
+    }).catch(error => {
+      console.error("Failed to fetch open incidents count:", error);
+      setOpenIncidents('Error');
+    });
+  },[])
+
+  const kpisToDisplay = analyticKPIs.map(kpi => {
+    if(kpi.title === 'Total Open Incidents'){
+      return {...kpi, value: openIncidents};
+    }
+    return kpi;
+  });
+
   return (
     <Grid container>
       <Grid size={{ xs: 12, xl: 5 }} container>
-        {analyticKPIs.map((kpi) => (
+        {kpisToDisplay.map((kpi) => (
           <Grid key={kpi.title} size={{ xs: 6, md: 3, xl: 6 }}>
             <AnalyticKPI kpi={kpi} />
           </Grid>
