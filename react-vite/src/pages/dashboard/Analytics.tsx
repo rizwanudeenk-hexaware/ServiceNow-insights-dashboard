@@ -11,23 +11,47 @@ import TopCampaigns from 'components/sections/dashboards/analytics/top-campaigns
 import UserByCountry from 'components/sections/dashboards/analytics/user-by-country/UserByCountry';
 import UserEngagement from 'components/sections/dashboards/analytics/user-engagement/UserEngagement';
 import { useEffect, useState } from 'react';
-import { getOpenIncidentsCount } from './DashboardService';
+import { getOpenIncidentsCount, getStaleTicketsCount, getUnassignedTicketsCount } from './DashboardService';
 
 const Analytics = () => {
   const [openIncidents, setOpenIncidents] = useState('...');
+  const [unassignedTickets, setUnassignedTickets] = useState('...');
+  const [staleTickets, setStaleTickets] = useState ('...');
 
   useEffect(() => {
     getOpenIncidentsCount().then((count) => {
       setOpenIncidents(count);
     }).catch(error => {
-      console.error("Failed to fetch open incidents count:", error);
+      console.error("Failed to fetch unassigned tickets count:", error);
       setOpenIncidents('Error');
+    });
+
+    getUnassignedTicketsCount().then((count) => {
+      setUnassignedTickets(count);
+    }).catch(error => {
+      console.error("Failed to fetch unassigned tickets count:", error);
+      setUnassignedTickets('Error');
+    });
+
+    getStaleTicketsCount().then((count) => {
+      setStaleTickets(count);
+    }).catch(error => {
+      console.error("Failed to fetch unassigned tickets count:", error);
+      setStaleTickets('Error');
     });
   },[])
 
   const kpisToDisplay = analyticKPIs.map(kpi => {
     if(kpi.title === 'Total Open Incidents'){
       return {...kpi, value: openIncidents};
+    }
+
+    if(kpi.title === 'Unassigned Tickets'){
+      return {...kpi, value: unassignedTickets};
+    }
+
+    if(kpi.title === 'Stale Tickets (>30d)'){
+      return {...kpi, value: staleTickets};
     }
     return kpi;
   });

@@ -18,36 +18,21 @@ export const analyticKPIs: AnalyticKPIData[] = [
       name: 'material-symbols:attribution-outline-rounded',
       color: 'primary',
     },
-    link: {
-      prefix: 'See in-depth',
-      text: 'Traffic sources',
-      url: '#!',
-    },
   },
   {
-    title: 'Bounce Rate',
-    value: '62.11%',
+    title: 'Unassigned Tickets',
+    value: '...',
     icon: {
       name: 'material-symbols:call-missed-outgoing-rounded',
       color: 'warning',
     },
-    link: {
-      prefix: 'See page-wise',
-      text: 'Performance',
-      url: '#!',
-    },
   },
   {
-    title: 'Conversion',
-    value: '21.91%',
+    title: 'Stale Tickets (>30d)',
+    value: '...',
     icon: {
       name: 'material-symbols:credit-score-outline-rounded',
       color: 'success',
-    },
-    link: {
-      prefix: "See last week's",
-      text: 'Top Products',
-      url: '#!',
     },
   },
   {
@@ -56,11 +41,6 @@ export const analyticKPIs: AnalyticKPIData[] = [
     icon: {
       name: 'material-symbols:conversion-path',
       color: 'info',
-    },
-    link: {
-      prefix: 'See all inbound',
-      text: 'Referral links',
-      url: '#!',
     },
   },
 ];

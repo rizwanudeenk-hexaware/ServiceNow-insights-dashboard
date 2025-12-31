@@ -1,11 +1,6 @@
 export interface AnalyticKPIData {
   title: string;
   value: string | number;
-  link: {
-    prefix: string;
-    url: string;
-    text: string;
-  };
   icon: {
     name: string;
     color: string;

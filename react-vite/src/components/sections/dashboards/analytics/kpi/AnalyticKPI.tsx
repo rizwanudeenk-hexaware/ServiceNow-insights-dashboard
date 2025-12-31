@@ -4,7 +4,7 @@ import { AnalyticKPIData } from 'types/dashboard';
 import IconifyIcon from 'components/base/IconifyIcon';
 
 const AnalyticKPI = ({ kpi }: { kpi: AnalyticKPIData }) => {
-  const { title, link, value, icon } = kpi;
+  const { title, value, icon } = kpi;
 
   return (
     <Paper
@@ -58,8 +58,6 @@ const AnalyticKPI = ({ kpi }: { kpi: AnalyticKPIData }) => {
           flexWrap: 'wrap',
         }}
       >
-        {link.prefix}
-        <Link href={link.url}>{link.text}</Link>
       </Typography>
     </Paper>
   );
