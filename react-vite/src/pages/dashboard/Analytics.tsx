@@ -11,12 +11,16 @@ import TopCampaigns from 'components/sections/dashboards/analytics/top-campaigns
 import UserByCountry from 'components/sections/dashboards/analytics/user-by-country/UserByCountry';
 import UserEngagement from 'components/sections/dashboards/analytics/user-engagement/UserEngagement';
 import { useEffect, useState } from 'react';
-import { getOpenIncidentsCount, getStaleTicketsCount, getUnassignedTicketsCount } from './DashboardService';
+import { getOpenIncidentsCount, getStaleTicketsCount, getUnassignedTicketsCount, getVolumeByPriority, getCriticalBacklog } from './DashboardService';
+import VolumeByPriorityPieChart from 'components/sections/dashboards/analytics/VolumeByPriorityPieChart';
+import CriticalBacklogGauge from 'components/sections/dashboards/analytics/CriticalBacklogGauge';
 
 const Analytics = () => {
   const [openIncidents, setOpenIncidents] = useState('...');
   const [unassignedTickets, setUnassignedTickets] = useState('...');
   const [staleTickets, setStaleTickets] = useState ('...');
+  const [volumeByPriority, setVolumeByPriority] = useState([]);
+  const [criticalBacklog, setCriticalBacklog] = useState(null);
 
   useEffect(() => {
     getOpenIncidentsCount().then((count) => {
@@ -39,6 +43,19 @@ const Analytics = () => {
       console.error("Failed to fetch unassigned tickets count:", error);
       setStaleTickets('Error');
     });
+
+    getVolumeByPriority().then((data) => {
+      setVolumeByPriority(data);
+    }).catch(error => {
+      console.error("Failed to fetch volume by priority:", error);
+    });
+
+    getCriticalBacklog().then((data) => {
+      setCriticalBacklog(data);
+    }).catch(error => {
+      console.error("Failed to fetch critical backlog:", error);
+    });
+    
   },[])
 
   const kpisToDisplay = analyticKPIs.map(kpi => {
@@ -60,10 +77,18 @@ const Analytics = () => {
     <Grid container>
       <Grid size={{ xs: 12, xl: 5 }} container>
         {kpisToDisplay.map((kpi) => (
-          <Grid key={kpi.title} size={{ xs: 6, md: 3, xl: 6 }}>
+          <Grid key={kpi.title} size={{ xs: 6, md: 4, xl: 6 }}>
             <AnalyticKPI kpi={kpi} />
           </Grid>
         ))}
+      </Grid>
+
+      <Grid size={{ xs: 12, lg: 7 }}>
+        <VolumeByPriorityPieChart data={volumeByPriority} />
+      </Grid>
+
+      <Grid size={{ xs: 12, lg: 5 }}>
+        {criticalBacklog && <CriticalBacklogGauge data={criticalBacklog} />}
       </Grid>
 
       <Grid size={{ xs: 12, lg: 7 }}>
@@ -73,6 +98,8 @@ const Analytics = () => {
       <Grid size={{ xs: 12, lg: 5 }}>
         <TopCampaigns data={topCampaignsChartData} />
       </Grid>
+      
+
 
       <Grid size={{ xs: 12, xl: 7 }}>
         <UserByCountry data={userByCountryData} />

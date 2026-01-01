@@ -35,14 +35,6 @@ export const analyticKPIs: AnalyticKPIData[] = [
       color: 'success',
     },
   },
-  {
-    title: 'Active Referrals',
-    value: 470,
-    icon: {
-      name: 'material-symbols:conversion-path',
-      color: 'info',
-    },
-  },
 ];
 
 export const userEngagementTabs: UserEngagementTab[] = [

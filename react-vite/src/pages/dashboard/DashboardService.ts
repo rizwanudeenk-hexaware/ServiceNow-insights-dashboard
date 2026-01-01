@@ -31,3 +31,23 @@ export const getStaleTicketsCount = async () => {
     throw error;
   }
 }
+
+export const getVolumeByPriority = async () => {
+  try{
+    const response = await axios.get(`${baseUrl}/volume-by-priority`);
+    return response.data;
+  } catch (error){
+    console.error('Error fetching volume by priority', error);
+    throw error;
+  }
+}
+
+export const getCriticalBacklog = async () => {
+  try {
+    const response = await axios.get(`${baseUrl}/critical-backlog`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching critical backlog', error);
+    throw error;
+  }
+};
