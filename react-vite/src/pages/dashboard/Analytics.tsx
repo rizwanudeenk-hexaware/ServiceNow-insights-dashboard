@@ -11,9 +11,13 @@ import TopCampaigns from 'components/sections/dashboards/analytics/top-campaigns
 import UserByCountry from 'components/sections/dashboards/analytics/user-by-country/UserByCountry';
 import UserEngagement from 'components/sections/dashboards/analytics/user-engagement/UserEngagement';
 import { useEffect, useState } from 'react';
-import { getOpenIncidentsCount, getStaleTicketsCount, getUnassignedTicketsCount, getVolumeByPriority, getCriticalBacklog } from './DashboardService';
+import { getOpenIncidentsCount, getStaleTicketsCount, getUnassignedTicketsCount, getVolumeByPriority, getCriticalBacklog, getCategoryDistribution, getGroupWorkload, getSlaBreachStatus, getStateFunnel } from './DashboardService';
 import VolumeByPriorityPieChart from 'components/sections/dashboards/analytics/VolumeByPriorityPieChart';
 import CriticalBacklogGauge from 'components/sections/dashboards/analytics/CriticalBacklogGauge';
+import CategoryDistributionBarChart from 'components/sections/dashboards/analytics/CategoryDistributionBarChart';
+import GroupWorkloadBarChart from 'components/sections/dashboards/analytics/GroupWorkloadBarChart';
+import SlaBreachStatusDonutChart from 'components/sections/dashboards/analytics/SlaBreachStatusDonutChart';
+import StateFunnelChart from 'components/sections/dashboards/analytics/StateFunnelChart';
 
 const Analytics = () => {
   const [openIncidents, setOpenIncidents] = useState('...');
@@ -21,6 +25,10 @@ const Analytics = () => {
   const [staleTickets, setStaleTickets] = useState ('...');
   const [volumeByPriority, setVolumeByPriority] = useState([]);
   const [criticalBacklog, setCriticalBacklog] = useState(null);
+  const [categoryDistribution, setCategoryDistribution] = useState([]);
+  const [groupWorkload, setGroupWorkload] = useState([]);
+  const [slaBreachStatus, setSlaBreachStatus] = useState([]);
+  const [stateFunnel, setStateFunnel] = useState([]);
 
   useEffect(() => {
     getOpenIncidentsCount().then((count) => {
@@ -56,6 +64,34 @@ const Analytics = () => {
       console.error("Failed to fetch critical backlog:", error);
     });
     
+    getCategoryDistribution().then((data) => {
+      setCategoryDistribution(data);
+    })
+    .catch((error) => {
+      console.error("Failed to fetch category distribution:", error);
+    });
+
+    getGroupWorkload().then((data) => {
+      setGroupWorkload(data);
+    })
+    .catch((error) => {
+      console.error("Failed to fetch group workload:", error);
+    });
+
+    getSlaBreachStatus().then((data) => {
+      setSlaBreachStatus(data);
+    })
+    .catch((error) => {
+      console.error("Failed to fetch sla breach status:", error);
+    });
+
+    getStateFunnel().then((data) => {
+      setStateFunnel(data);
+    })
+    .catch((error) => {
+      console.error("Failed to fetch state funnel:", error);
+    });
+    
   },[])
 
   const kpisToDisplay = analyticKPIs.map(kpi => {
@@ -89,6 +125,22 @@ const Analytics = () => {
 
       <Grid size={{ xs: 12, lg: 5 }}>
         {criticalBacklog && <CriticalBacklogGauge data={criticalBacklog} />}
+      </Grid>
+
+      <Grid size={{ xs: 12, lg: 4 }}>
+        <CategoryDistributionBarChart data={categoryDistribution} />
+      </Grid>
+
+      <Grid size={{ xs: 12, lg: 8 }}>
+        <GroupWorkloadBarChart data={groupWorkload} />
+      </Grid>
+
+      <Grid size={{ xs: 12, lg: 5 }}>
+        <SlaBreachStatusDonutChart data={slaBreachStatus} />
+      </Grid>
+
+      <Grid size={{ xs: 12, lg: 7 }}>
+        <StateFunnelChart data={stateFunnel} />
       </Grid>
 
       <Grid size={{ xs: 12, lg: 7 }}>
