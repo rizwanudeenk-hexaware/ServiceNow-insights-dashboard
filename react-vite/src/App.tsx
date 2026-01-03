@@ -4,6 +4,7 @@ import { useSettingsContext } from 'providers/SettingsProvider';
 import { REFRESH } from 'reducers/SettingsReducer';
 import SettingPanelToggler from 'components/settings-panel/SettingPanelToggler';
 import SettingsPanel from 'components/settings-panel/SettingsPanel';
+import { RefreshProvider } from 'context/RefreshContext';
 
 const App = () => {
   const { pathname } = useLocation();
@@ -18,11 +19,11 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <RefreshProvider>
       <Outlet />
       <SettingsPanel />
       <SettingPanelToggler />
-    </>
+    </RefreshProvider>
   );
 };
 

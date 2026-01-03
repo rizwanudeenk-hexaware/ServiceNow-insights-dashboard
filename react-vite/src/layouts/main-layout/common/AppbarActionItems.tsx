@@ -1,5 +1,7 @@
 import { ReactElement } from 'react';
-import { Stack, SxProps } from '@mui/material';
+import { IconButton, Stack, SxProps } from '@mui/material';
+import IconifyIcon from 'components/base/IconifyIcon';
+import { useRefresh } from 'context/RefreshContext';
 import LanguageMenu from './LanguageMenu';
 import NotificationMenu from './NotificationMenu';
 import ProfileMenu from './ProfileMenu';
@@ -11,6 +13,7 @@ interface AppbarActionItemsProps {
 }
 
 const AppbarActionItems = ({ sx, searchComponent }: AppbarActionItemsProps) => {
+  const { triggerRefresh } = useRefresh();
   return (
     <Stack
       className="action-items"
@@ -21,6 +24,9 @@ const AppbarActionItems = ({ sx, searchComponent }: AppbarActionItemsProps) => {
         ...sx,
       }}
     >
+      <IconButton color="inherit" onClick={triggerRefresh}>
+        <IconifyIcon icon="material-symbols:refresh" />
+      </IconButton>
       {searchComponent}
       <LanguageMenu />
       <ThemeToggler />

@@ -19,8 +19,10 @@ import GroupWorkloadBarChart from 'components/sections/dashboards/analytics/Grou
 import SlaBreachStatusDonutChart from 'components/sections/dashboards/analytics/SlaBreachStatusDonutChart';
 import StateFunnelChart from 'components/sections/dashboards/analytics/StateFunnelChart';
 import TopCallersTable from 'components/sections/dashboards/analytics/TopCallersTable';
+import { useRefresh } from 'context/RefreshContext';
 
 const Analytics = () => {
+  const { refreshCount } = useRefresh();
   const [openIncidents, setOpenIncidents] = useState('...');
   const [unassignedTickets, setUnassignedTickets] = useState('...');
   const [staleTickets, setStaleTickets] = useState ('...');
@@ -105,7 +107,7 @@ const Analytics = () => {
       setLoadingTopCallers(false);
     });
     
-  },[])
+  },[refreshCount])
 
   const kpisToDisplay = analyticKPIs.map(kpi => {
     if(kpi.title === 'Total Open Incidents'){
