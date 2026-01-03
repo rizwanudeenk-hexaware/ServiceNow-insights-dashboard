@@ -92,3 +92,12 @@ export const getStateFunnel = async () => {
   }
 };
 
+export const getTopMonthlyCallers = async () => {
+  try {
+    const response = await axios.get(`${baseUrl}/top-monthly-callers`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching top monthly callers', error);
+    throw error;
+  }
+};

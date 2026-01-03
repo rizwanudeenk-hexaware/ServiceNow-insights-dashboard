@@ -11,13 +11,14 @@ import TopCampaigns from 'components/sections/dashboards/analytics/top-campaigns
 import UserByCountry from 'components/sections/dashboards/analytics/user-by-country/UserByCountry';
 import UserEngagement from 'components/sections/dashboards/analytics/user-engagement/UserEngagement';
 import { useEffect, useState } from 'react';
-import { getOpenIncidentsCount, getStaleTicketsCount, getUnassignedTicketsCount, getVolumeByPriority, getCriticalBacklog, getCategoryDistribution, getGroupWorkload, getSlaBreachStatus, getStateFunnel } from './DashboardService';
+import { getOpenIncidentsCount, getStaleTicketsCount, getUnassignedTicketsCount, getVolumeByPriority, getCriticalBacklog, getCategoryDistribution, getGroupWorkload, getSlaBreachStatus, getStateFunnel, getTopMonthlyCallers } from './DashboardService';
 import VolumeByPriorityPieChart from 'components/sections/dashboards/analytics/VolumeByPriorityPieChart';
 import CriticalBacklogGauge from 'components/sections/dashboards/analytics/CriticalBacklogGauge';
 import CategoryDistributionBarChart from 'components/sections/dashboards/analytics/CategoryDistributionBarChart';
 import GroupWorkloadBarChart from 'components/sections/dashboards/analytics/GroupWorkloadBarChart';
 import SlaBreachStatusDonutChart from 'components/sections/dashboards/analytics/SlaBreachStatusDonutChart';
 import StateFunnelChart from 'components/sections/dashboards/analytics/StateFunnelChart';
+import TopCallersTable from 'components/sections/dashboards/analytics/TopCallersTable';
 
 const Analytics = () => {
   const [openIncidents, setOpenIncidents] = useState('...');
@@ -29,6 +30,8 @@ const Analytics = () => {
   const [groupWorkload, setGroupWorkload] = useState([]);
   const [slaBreachStatus, setSlaBreachStatus] = useState([]);
   const [stateFunnel, setStateFunnel] = useState([]);
+  const [topMonthlyCallers, setTopMonthlyCallers] = useState([]);
+  const [loadingTopCallers, setLoadingTopCallers] = useState(true);
 
   useEffect(() => {
     getOpenIncidentsCount().then((count) => {
@@ -91,6 +94,16 @@ const Analytics = () => {
     .catch((error) => {
       console.error("Failed to fetch state funnel:", error);
     });
+
+    getTopMonthlyCallers().then((data) => {
+      setTopMonthlyCallers(data);
+    })
+    .catch((error) => {
+      console.error("Failed to fetch top monthly callers:", error);
+    })
+    .finally(() => {
+      setLoadingTopCallers(false);
+    });
     
   },[])
 
@@ -143,6 +156,10 @@ const Analytics = () => {
         <StateFunnelChart data={stateFunnel} />
       </Grid>
 
+      <Grid size={{ xs: 12, lg: 5 }}>
+        <TopCallersTable callers={topMonthlyCallers} loading={loadingTopCallers} />
+      </Grid>
+
       <Grid size={{ xs: 12, lg: 7 }}>
         <UserEngagement data={userEngagementChartData} />
       </Grid>
@@ -151,8 +168,6 @@ const Analytics = () => {
         <TopCampaigns data={topCampaignsChartData} />
       </Grid>
       
-
-
       <Grid size={{ xs: 12, xl: 7 }}>
         <UserByCountry data={userByCountryData} />
       </Grid>

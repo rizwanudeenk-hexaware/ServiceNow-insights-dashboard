@@ -68,6 +68,15 @@ export class MetricsController {
                     'state'
                 )
             
+            case 'top-monthly-callers': //M8
+                return this.snService.fetchTable(
+                    'incident',
+                    'opened_atONThis month@javascript:gs.beginningOfThisMonth()@javascript:gs.endOfThisMonth()',
+                    'caller_id',
+                    'COUNTDESC',
+                    5
+                )
+            
             default:
                 return {error: 'Invalid Metric Name'};
         }
