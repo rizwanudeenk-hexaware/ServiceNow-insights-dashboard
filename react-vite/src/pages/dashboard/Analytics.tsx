@@ -1,24 +1,17 @@
 import Grid from '@mui/material/Grid';
 import {
   analyticKPIs,
-  topCampaignsChartData,
-  userByCountryData,
-  userEngagementChartData,
 } from 'data/dashboard';
-import ProPlanCTA from 'components/sections/dashboards/analytics/cta/ProPlanCTA';
 import AnalyticKPI from 'components/sections/dashboards/analytics/kpi/AnalyticKPI';
-import TopCampaigns from 'components/sections/dashboards/analytics/top-campaigns/TopCampaigns';
-import UserByCountry from 'components/sections/dashboards/analytics/user-by-country/UserByCountry';
-import UserEngagement from 'components/sections/dashboards/analytics/user-engagement/UserEngagement';
 import { useEffect, useState } from 'react';
 import { getOpenIncidentsCount, getStaleTicketsCount, getUnassignedTicketsCount, getVolumeByPriority, getCriticalBacklog, getCategoryDistribution, getGroupWorkload, getSlaBreachStatus, getStateFunnel, getTopMonthlyCallers } from './DashboardService';
-import VolumeByPriorityPieChart from 'components/sections/dashboards/analytics/VolumeByPriorityPieChart';
-import CriticalBacklogGauge from 'components/sections/dashboards/analytics/CriticalBacklogGauge';
-import CategoryDistributionBarChart from 'components/sections/dashboards/analytics/CategoryDistributionBarChart';
-import GroupWorkloadBarChart from 'components/sections/dashboards/analytics/GroupWorkloadBarChart';
-import SlaBreachStatusDonutChart from 'components/sections/dashboards/analytics/SlaBreachStatusDonutChart';
-import StateFunnelChart from 'components/sections/dashboards/analytics/StateFunnelChart';
-import TopCallersTable from 'components/sections/dashboards/analytics/TopCallersTable';
+import VolumeByPriorityPieChart from 'components/sections/dashboards/VolumeByPriorityPieChart';
+import CriticalBacklogGauge from 'components/sections/dashboards/CriticalBacklogGauge';
+import CategoryDistributionBarChart from 'components/sections/dashboards/CategoryDistributionBarChart';
+import GroupWorkloadBarChart from 'components/sections/dashboards/GroupWorkloadBarChart';
+import SlaBreachStatusDonutChart from 'components/sections/dashboards/SlaBreachStatusDonutChart';
+import StateFunnelChart from 'components/sections/dashboards/StateFunnelChart';
+import TopCallersTable from 'components/sections/dashboards/TopCallersTable';
 import { useRefresh } from 'context/RefreshContext';
 
 const Analytics = () => {
@@ -158,24 +151,10 @@ const Analytics = () => {
         <StateFunnelChart data={stateFunnel} />
       </Grid>
 
-      <Grid size={{ xs: 12, lg: 5 }}>
+      <Grid size={{ xs: 12, lg: 6 }}>
         <TopCallersTable callers={topMonthlyCallers} loading={loadingTopCallers} />
       </Grid>
 
-      <Grid size={{ xs: 12, lg: 7 }}>
-        <UserEngagement data={userEngagementChartData} />
-      </Grid>
-
-      <Grid size={{ xs: 12, lg: 5 }}>
-        <TopCampaigns data={topCampaignsChartData} />
-      </Grid>
-      
-      <Grid size={{ xs: 12, xl: 7 }}>
-        <UserByCountry data={userByCountryData} />
-      </Grid>
-      <Grid size={12}>
-        <ProPlanCTA />
-      </Grid>
     </Grid>
   );
 };

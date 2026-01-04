@@ -134,7 +134,7 @@ const Logo = ({ sx, viewBox = '0 0 26 40', showName = true, ...rest }: LogoProps
           sx={{
             color: 'text.secondary',
             fontWeight: 'medium',
-            fontSize: 29.5,
+            fontSize: 18,
             lineHeight: 1,
             margin: 1,
             marginLeft: 0.625,
@@ -148,7 +148,7 @@ const Logo = ({ sx, viewBox = '0 0 26 40', showName = true, ...rest }: LogoProps
             transition: 'background-position .3s cubic-bezier(0.8, 0.63, .5, 1)',
           }}
         >
-          aurora
+          ServiceNow Insights
         </Typography>
       )}
     </Link>

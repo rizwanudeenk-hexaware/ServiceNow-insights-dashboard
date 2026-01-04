@@ -3,7 +3,6 @@ import { Box, Button, Divider, Link, Stack, TextField, Typography } from '@mui/m
 import Grid from '@mui/material/Grid';
 import paths from 'routes/paths';
 import PasswordTextField from 'components/common/PasswordTextField';
-import SocialAuth from './SocialAuth';
 import { useState } from 'react';
 import { supabase } from 'supabaseClient';
 
@@ -82,13 +81,6 @@ const SignupForm = () => {
         </Grid>
 
         <Grid size={12}>
-          <SocialAuth />
-        </Grid>
-        <Grid size={12}>
-          <Divider sx={{ color: 'text.secondary' }}>or use email</Divider>
-        </Grid>
-
-        <Grid size={12}>
           <Box component="form" noValidate onSubmit={handleSubmit}>
             <Grid container>
               <Grid
@@ -151,9 +143,6 @@ const SignupForm = () => {
           </Box>
         </Grid>
       </Grid>
-      <Link href="#!" variant="subtitle2" sx={{ flex: 1 }}>
-        Trouble signing in?
-      </Link>
     </Stack>
   );
 };

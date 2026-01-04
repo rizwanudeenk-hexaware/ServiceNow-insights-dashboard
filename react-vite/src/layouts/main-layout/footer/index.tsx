@@ -34,9 +34,8 @@ const Footer = () => {
           }}
         >
           <Box component="span" whiteSpace="nowrap">
-            Thank you for creating with
             <Box component="strong" mx={0.5}>
-              Aurora{' '}
+              ServiceNow Insights{' '}
             </Box>
           </Box>
 
@@ -45,13 +44,6 @@ const Footer = () => {
               |
             </Box>{' '}
             {dayjs().year()} ©
-            <Link
-              href="https://themewagon.com/"
-              target="_blank"
-              sx={{ textDecoration: 'none', mx: 0.5 }}
-            >
-              ThemeWagon
-            </Link>
           </Box>
         </Typography>
 

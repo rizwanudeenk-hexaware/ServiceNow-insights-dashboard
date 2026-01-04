@@ -3,8 +3,6 @@ import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { useBreakpoints } from 'providers/BreakpointsProvider';
 import { useSettingsContext } from 'providers/SettingsProvider';
-import IconifyIcon from 'components/base/IconifyIcon';
-import Logo from 'components/common/Logo';
 import AppbarActionItems from '../common/AppbarActionItems';
 import SearchBox, { SearchBoxButton } from '../common/search-box/SearchBox';
 import { useAuth } from 'context/AuthContext';
@@ -48,29 +46,6 @@ const AppBar = () => {
       }}
     >
       <Toolbar variant="appbar" sx={{ px: { xs: 3, md: 5 } }}>
-        <Box
-          sx={{
-            display: { xs: 'flex', md: 'none' },
-            alignItems: 'center',
-            gap: 1,
-            pr: 2,
-          }}
-        >
-          <Button
-            color="neutral"
-            variant="soft"
-            shape="circle"
-            aria-label="open drawer"
-            onClick={handleDrawerToggle}
-          >
-            <IconifyIcon icon="material-symbols:menu-rounded" sx={{ fontSize: 20 }} />
-          </Button>
-
-          <Box>
-            <Logo showName={upSm} />
-          </Box>
-        </Box>
-
         <Stack
           sx={{
             alignItems: 'center',
@@ -88,7 +63,7 @@ const AppBar = () => {
             <SearchBoxButton />
           )}
           {session?.user?.email && (
-            <Typography variant='body2' sx={{mr:2}}>
+            <Typography variant='body2' sx={{mr:2,ml:8}}>
               {session.user.email}
             </Typography>
           )}

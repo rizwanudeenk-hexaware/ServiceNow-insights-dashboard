@@ -9,9 +9,6 @@ import paths, { rootPaths } from './paths';
 import ProtectedRoute from './ProtectedRoute';
 
 const Analytics = lazy(() => import('pages/dashboard/Analytics'));
-const UserList = lazy(() => import('pages/users/UserList'));
-const Starter = lazy(() => import('pages/others/Starter'));
-const Account = lazy(() => import('pages/others/Account'));
 
 const Login = lazy(() => import('pages/authentication/Login'));
 const Signup = lazy(() => import('pages/authentication/Signup'));
@@ -44,18 +41,6 @@ export const routes: RouteObject[] = [
           {
             index: true,
             element: <Analytics />,
-          },
-          {
-            path: paths.users,
-            element: <UserList />,
-          },
-          {
-            path: paths.account,
-            element: <Account />,
-          },
-          {
-            path: paths.starter,
-            element: <Starter />,
           },
         ],
       },

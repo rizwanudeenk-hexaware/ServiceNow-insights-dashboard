@@ -38,13 +38,15 @@ const TopCallersTable = ({ callers, loading }: TopCallersTableProps) => {
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell>S. No.</TableCell>
                   <TableCell>Name</TableCell>
                   <TableCell align="right">Count</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {callers.map((caller) => (
+                {callers.map((caller, index) => (
                   <TableRow key={caller.groupby_fields[0].display_value}>
+                    <TableCell>{index + 1}</TableCell>
                     <TableCell>{caller.groupby_fields[0].display_value}</TableCell>
                     <TableCell align="right">{caller.stats.count}</TableCell>
                   </TableRow>

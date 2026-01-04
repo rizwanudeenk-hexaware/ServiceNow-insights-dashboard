@@ -13,7 +13,6 @@ import {
 import Grid from '@mui/material/Grid';
 import paths from 'routes/paths';
 import PasswordTextField from 'components/common/PasswordTextField';
-import SocialAuth from './SocialAuth';
 import { supabase } from 'supabaseClient';
 import { useState } from 'react';
 
@@ -84,13 +83,6 @@ const LoginForm = () => {
         </Grid>
 
         <Grid size={12}>
-          <SocialAuth />
-        </Grid>
-        <Grid size={12}>
-          <Divider sx={{ color: 'text.secondary' }}>or use email</Divider>
-        </Grid>
-
-        <Grid size={12}>
           <Box component="form" noValidate onSubmit={handleSubmit}>
             <Grid container>
               <Grid
@@ -137,23 +129,6 @@ const LoginForm = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <FormControlLabel
-                    control={<Checkbox name="checked" color="primary" size="small" />}
-                    label={
-                      <Typography
-                        variant="subtitle2"
-                        sx={{
-                          color: 'text.secondary',
-                        }}
-                      >
-                        Remember this device
-                      </Typography>
-                    }
-                  />
-
-                  <Link href="#!" variant="subtitle2">
-                    Forgot Password?
-                  </Link>
                 </Stack>
               </Grid>
               <Grid size={12}>
@@ -165,9 +140,6 @@ const LoginForm = () => {
           </Box>
         </Grid>
       </Grid>
-      <Link href="#!" variant="subtitle2">
-        Trouble signing in?
-      </Link>
     </Stack>
   );
 };
