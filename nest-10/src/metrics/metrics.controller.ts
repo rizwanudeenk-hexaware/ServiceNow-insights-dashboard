@@ -1,11 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
 import { ServicenowService } from 'src/servicenow/servicenow.service';
+import { WidgetCodes } from '../service-now-insights-widget-codes.enum';
 
 @Controller('api/metrics')
 export class MetricsController {
     constructor(private snService: ServicenowService){}
 
-    @Get('total-open-incidents')
+    @Get(WidgetCodes.TOTAL_OPEN_INCIDENTS)
     getTotalOpenIncidents(){
         return this.snService.fetchTable(
             'incident',
@@ -13,7 +14,7 @@ export class MetricsController {
         );
     }
 
-    @Get('unassigned-tickets')
+    @Get(WidgetCodes.UNASSIGNED_TICKETS)
     getUnassignedTickets(){
         return this.snService.fetchTable(
             'incident',
@@ -21,7 +22,7 @@ export class MetricsController {
         )
     }
 
-    @Get('stale-tickets')
+    @Get(WidgetCodes.STALE_TICKETS)
     getStaleTickets(){
         return this.snService.fetchTable(
             'incident',
@@ -29,7 +30,7 @@ export class MetricsController {
         )
     }
 
-    @Get('critical-backlog')
+    @Get(WidgetCodes.CRITICAL_BACKLOG)
     getCriticalBacklog(){
         return this.snService.fetchTable(
             'incident',
@@ -37,7 +38,7 @@ export class MetricsController {
         )
     }
 
-    @Get('volume-by-priority')
+    @Get(WidgetCodes.VOLUME_BY_PRIORITY)
     getVolumeByPriority(){
         return this.snService.fetchTable(
             'incident',
@@ -46,7 +47,7 @@ export class MetricsController {
         )
     }
 
-    @Get('category-distribution')
+    @Get(WidgetCodes.CATEGORY_DISTRIBUTION)
     getCategoryDistribution(){
         return this.snService.fetchTable(
             'incident',
@@ -55,7 +56,7 @@ export class MetricsController {
         )
     }
 
-    @Get('group-workload')
+    @Get(WidgetCodes.GROUP_WORKLOAD)
     getGroupWorkload(){
         return this.snService.fetchTable(
             'incident',
@@ -64,7 +65,7 @@ export class MetricsController {
         )
     }
 
-    @Get('sla-breach-status')
+    @Get(WidgetCodes.SLA_BREACH_STATUS)
     getSlaBreachStatus(){
         return this.snService.fetchTable(
             'task_sla',
@@ -73,7 +74,7 @@ export class MetricsController {
         )
     }
 
-    @Get('state-funnel')
+    @Get(WidgetCodes.STATE_FUNNEL)
     getStateFunnel(){
         return this.snService.fetchTable(
             'incident',
@@ -82,7 +83,7 @@ export class MetricsController {
         )
     }
 
-    @Get('top-monthly-callers')
+    @Get(WidgetCodes.TOP_MONTHLY_CALLERS)
     getTopMonthlyCallers(){
         return this.snService.fetchTable(
             'incident',

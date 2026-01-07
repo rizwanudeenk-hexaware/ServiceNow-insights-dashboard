@@ -4,7 +4,7 @@ import {
 } from 'data/dashboard';
 import AnalyticKPI from 'components/sections/dashboards/analytics/kpi/AnalyticKPI';
 import { useEffect, useState } from 'react';
-import { getOpenIncidentsCount, getStaleTicketsCount, getUnassignedTicketsCount, getVolumeByPriority, getCriticalBacklog, getCategoryDistribution, getGroupWorkload, getSlaBreachStatus, getStateFunnel, getTopMonthlyCallers } from './DashboardService';
+import { getOpenIncidentsCount, getStaleTicketsCount, getUnassignedTicketsCount, getVolumeByPriority, getCriticalBacklog, getCategoryDistribution, getGroupWorkload, getSlaBreachStatus, getStateFunnel, getTopMonthlyCallers, getWidgetMapping } from './DashboardService';
 import VolumeByPriorityPieChart from 'components/sections/dashboards/VolumeByPriorityPieChart';
 import CriticalBacklogGauge from 'components/sections/dashboards/CriticalBacklogGauge';
 import CategoryDistributionBarChart from 'components/sections/dashboards/CategoryDistributionBarChart';
@@ -27,70 +27,81 @@ const Analytics = () => {
   const [stateFunnel, setStateFunnel] = useState([]);
   const [topMonthlyCallers, setTopMonthlyCallers] = useState([]);
   const [loadingTopCallers, setLoadingTopCallers] = useState(true);
+  const [widgetMapping, setWidgetMapping] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    getOpenIncidentsCount().then((count) => {
+    getWidgetMapping().then((data) => {
+      setWidgetMapping(data);
+    }).catch(error => {
+      console.error("Failed to fetch widget mapping:", error);
+    });
+  }, [refreshCount]);
+
+  useEffect(() => {
+    if (Object.keys(widgetMapping).length === 0) return;
+
+    getOpenIncidentsCount(widgetMapping['total_open_incidents']).then((count) => {
       setOpenIncidents(count);
     }).catch(error => {
       console.error("Failed to fetch unassigned tickets count:", error);
       setOpenIncidents('Error');
     });
 
-    getUnassignedTicketsCount().then((count) => {
+    getUnassignedTicketsCount(widgetMapping['unassigned_tickets']).then((count) => {
       setUnassignedTickets(count);
     }).catch(error => {
       console.error("Failed to fetch unassigned tickets count:", error);
       setUnassignedTickets('Error');
     });
 
-    getStaleTicketsCount().then((count) => {
+    getStaleTicketsCount(widgetMapping['stale_tickets']).then((count) => {
       setStaleTickets(count);
     }).catch(error => {
       console.error("Failed to fetch unassigned tickets count:", error);
       setStaleTickets('Error');
     });
 
-    getVolumeByPriority().then((data) => {
+    getVolumeByPriority(widgetMapping['volume_by_priority']).then((data) => {
       setVolumeByPriority(data);
     }).catch(error => {
       console.error("Failed to fetch volume by priority:", error);
     });
 
-    getCriticalBacklog().then((data) => {
+    getCriticalBacklog(widgetMapping['critical_backlog']).then((data) => {
       setCriticalBacklog(data);
     }).catch(error => {
       console.error("Failed to fetch critical backlog:", error);
     });
     
-    getCategoryDistribution().then((data) => {
+    getCategoryDistribution(widgetMapping['category_distribution']).then((data) => {
       setCategoryDistribution(data);
     })
     .catch((error) => {
       console.error("Failed to fetch category distribution:", error);
     });
 
-    getGroupWorkload().then((data) => {
+    getGroupWorkload(widgetMapping['group_workload']).then((data) => {
       setGroupWorkload(data);
     })
     .catch((error) => {
       console.error("Failed to fetch group workload:", error);
     });
 
-    getSlaBreachStatus().then((data) => {
+    getSlaBreachStatus(widgetMapping['sla_breach_status']).then((data) => {
       setSlaBreachStatus(data);
     })
     .catch((error) => {
       console.error("Failed to fetch sla breach status:", error);
     });
 
-    getStateFunnel().then((data) => {
+    getStateFunnel(widgetMapping['state_funnel']).then((data) => {
       setStateFunnel(data);
     })
     .catch((error) => {
       console.error("Failed to fetch state funnel:", error);
     });
 
-    getTopMonthlyCallers().then((data) => {
+    getTopMonthlyCallers(widgetMapping['top_monthly_callers']).then((data) => {
       setTopMonthlyCallers(data);
     })
     .catch((error) => {
@@ -100,7 +111,7 @@ const Analytics = () => {
       setLoadingTopCallers(false);
     });
     
-  },[refreshCount])
+  },[widgetMapping, refreshCount])
 
   const kpisToDisplay = analyticKPIs.map(kpi => {
     if(kpi.title === 'Total Open Incidents'){
