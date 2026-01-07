@@ -34,13 +34,14 @@ const SlaBreachStatusDonutChart: React.FC<SlaBreachStatusDonutChartProps> = ({ d
         radius: ['50%', '70%'],
         avoidLabelOverlap: false,
         label: {
-          show: false,
+          show: true,
+          fontSize: '20',
           position: 'center'
         },
         emphasis: {
           label: {
             show: true,
-            fontSize: '30',
+            fontSize: '20',
             fontWeight: 'bold'
           }
         },

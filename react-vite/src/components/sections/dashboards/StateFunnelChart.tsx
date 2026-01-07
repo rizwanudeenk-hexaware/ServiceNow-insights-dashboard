@@ -48,7 +48,7 @@ const StateFunnelChart: React.FC<StateFunnelChartProps> = ({ data }) => {
           gap: 2,
           label: {
             show: true,
-            position: 'inside'
+            position: 'outer'
           },
           labelLine: {
             length: 10,
