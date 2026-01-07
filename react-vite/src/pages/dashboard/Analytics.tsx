@@ -15,7 +15,7 @@ import TopCallersTable from 'components/sections/dashboards/TopCallersTable';
 import { useRefresh } from 'context/RefreshContext';
 
 const Analytics = () => {
-  const { refreshCount } = useRefresh();
+  const { refreshCount, completeRefresh } = useRefresh();
   const [openIncidents, setOpenIncidents] = useState('...');
   const [unassignedTickets, setUnassignedTickets] = useState('...');
   const [staleTickets, setStaleTickets] = useState ('...');
@@ -38,7 +38,10 @@ const Analytics = () => {
   }, [refreshCount]);
 
   useEffect(() => {
-    if (Object.keys(widgetMapping).length === 0) return;
+    if (Object.keys(widgetMapping).length === 0) {
+      completeRefresh(); // Ensure animation stops if no widget mapping is found
+      return;
+    }
 
     getOpenIncidentsCount(widgetMapping['total_open_incidents']).then((count) => {
       setOpenIncidents(count);
@@ -109,9 +112,10 @@ const Analytics = () => {
     })
     .finally(() => {
       setLoadingTopCallers(false);
+      completeRefresh(); // Signal refresh completion
     });
     
-  },[widgetMapping, refreshCount])
+  },[widgetMapping, refreshCount, completeRefresh])
 
   const kpisToDisplay = analyticKPIs.map(kpi => {
     if(kpi.title === 'Total Open Incidents'){
